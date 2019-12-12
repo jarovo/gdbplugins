@@ -5,8 +5,6 @@ import argparse
 from textwrap import dedent
 from gdbplugin.clang_support import CAPI, CFunc
 
-print("newpython")
-
 
 class Python(CAPI):
     PyGILState_Ensure = CFunc()
