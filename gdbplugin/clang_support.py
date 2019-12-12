@@ -1,6 +1,7 @@
 import gdb
 from contextlib import contextmanager
 
+
 class CFunc(object):
     def __init__(self):
         self.name = None

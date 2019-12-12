@@ -11,7 +11,7 @@ class Python(CAPI):
     PyGILState_Release = CFunc()
     PyObject_GetAttrString = CFunc()
     PyUnicode_FromString = CFunc()
-    PyObject_CallFunctionObjArgs  = CFunc()
+    PyObject_CallFunctionObjArgs = CFunc()
     PyObject_CallFunction = CFunc()
     PyObject_CallMethod = CFunc()
     PyObject_CallMethodObjArgs = CFunc()
@@ -35,11 +35,16 @@ class StartDebugger(gdb.Command):
 
     def invoke(self, argument, from_tty):
         with Python.GIL():
-            Python.PyRun_SimpleString(dedent(f'''\
-                import {self.modname}
-                import sys
-                {self.modname}.set_trace(sys._getframe().f_back, header="{self.modname} injected and tracing.")
-            '''))
+            Python.PyRun_SimpleString(
+                dedent(
+                    f"""\
+import {self.modname}
+import sys
+{self.modname}.set_trace(sys._getframe().f_back,
+                         header="{self.modname} injected and tracing.")
+"""
+                )
+            )
 
 
 class StartPdb(gdb.Command):
@@ -49,18 +54,20 @@ class StartPdb(gdb.Command):
         super().__init__(command, gdb.COMMAND_NONE)
 
     def invoke(self, argument, from_tty):
-        parser = argparse.ArgumentParser(description=f'Spawn {self.modname}')
-        parser.add_argument('--tty')
-        parser.add_argument('--fback')
+        parser = argparse.ArgumentParser(description=f"Spawn {self.modname}")
+        parser.add_argument("--tty")
+        parser.add_argument("--fback")
         args = parser.parse_args(gdb.string_to_argv(argument))
 
         tty = ""
         if args.tty == "reuse":
-            tty = subprocess.check_output('tty').decode('utf8').strip()
+            tty = subprocess.check_output("tty").decode("utf8").strip()
             print(f"tty: {tty}")
 
         with Python.GIL():
-            Python.PyRun_SimpleString(dedent(f'''\
+            Python.PyRun_SimpleString(
+                dedent(
+                    f"""\
                 import {self.modname}
                 import sys
                 import os
@@ -79,23 +86,24 @@ class StartPdb(gdb.Command):
                 else:
                     thepdb.set_trace()
                 (lambda: None)()
-            '''))
-        gdb.execute('c')
+            """
+                )
+            )
+        gdb.execute("c")
 
 
 class PythonEval(gdb.Command):
     def __init__(self):
-        super().__init__('python_eval', gdb.COMMAND_NONE)
+        super().__init__("python_eval", gdb.COMMAND_NONE)
 
     def invoke(self, argument, from_tty):
         with Python.GIL():
             Python.PyRun_SimpleString(argument)
 
 
-
 def main():
     PythonEval()
 
-    StartDebugger('pdb', 'justpdb')
-    StartDebugger('ipdb', 'justipdb')
-    StartPdb('pdb', 'pdb')
+    StartDebugger("pdb", "justpdb")
+    StartDebugger("ipdb", "justipdb")
+    StartPdb("pdb", "pdb")
