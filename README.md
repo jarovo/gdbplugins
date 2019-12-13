@@ -4,13 +4,13 @@
 
 Python plugins for gdb making debugging various languages with gdb easy.
 
+
 ## Installation
 
-    pip install gdbplugins
+On RHEL and Fedora, this will make it happen system-wide:
 
-Then you need to make sure the gdb loads the plugins. On RHEL and Fedora, this
-should make it happen:
+    sudo pip install --prefix / gdbplugins
 
-    sudo ln -s $(which _gdbplugin_loader) /etc/gdbinit.d/_gdbplugin_loader.py
+Note that to install, we cannot use virtualenv as gdb does not load the virtualenv.
 
 Next time you start gdb, the plugins should load.
