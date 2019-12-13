@@ -1,4 +1,4 @@
-# The gdbplugn.
+# The gdbplugins.
 
 [![Build Status](https://travis-ci.org/jaryn/gdbplugins.svg?branch=master)](https://travis-ci.org/jaryn/gdbplugins)
 
