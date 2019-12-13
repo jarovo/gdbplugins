@@ -1,4 +1,5 @@
 name: test
 dependencies:
+ - gdb
  - pre-commit
  - flake8
