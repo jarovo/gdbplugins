@@ -9,6 +9,14 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - uses: gaurav-nelson/github-action-markdown-link-check@v1
+  pip-install-test:
+    #runs-on: buster-slim
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Install
+        run: pip install .
   pre-commit:
     #runs-on: buster-slim
     runs-on: ubuntu-latest
@@ -27,11 +35,8 @@ jobs:
       run:  pre-commit clean
     - name: pre-commit run
       run:  pre-commit run --all-files
-  install-test:
-    #runs-on: buster-slim
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@master
-      - name: Install
-        run: pip install .
+  simple-test-pry:
+    - name: simple-install
+      run: tests/simple-install.sh
+    - name: test-run-pry
+      run: tests/run-pry
