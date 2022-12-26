@@ -9,8 +9,14 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - uses: gaurav-nelson/github-action-markdown-link-check@v1
+  pip-install-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Install
+        run: pip install .
   pre-commit:
-    #runs-on: buster-slim
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -27,11 +33,17 @@ jobs:
       run:  pre-commit clean
     - name: pre-commit run
       run:  pre-commit run --all-files
-  install-test:
-    #runs-on: buster-slim
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@master
-      - name: Install
-        run: pip install .
+  test-fedora:
+    uses: ./.github/workflows/test.yml
+    with:
+      IMAGE: fedora:latest
+    secrets:
+      GDBPLUGINS_DOCKERHUB_USER: ${{ secrets.GDBPLUGINS_DOCKERHUB_USER }}
+      GDBPLUGINS_DOCKERHUB_TOKEN: ${{ secrets.GDBPLUGINS_DOCKERHUB_TOKEN }}
+#  test-ubuntu:
+#    uses: ./.github/workflows/test.yml
+#    with:
+#      IMAGE: ubuntu:latest
+#    secrets:
+#      GDBPLUGINS_DOCKERHUB_USER: ${{ secrets.GDBPLUGINS_DOCKERHUB_USER }}
+#      GDBPLUGINS_DOCKERHUB_TOKEN: ${{ secrets.GDBPLUGINS_DOCKERHUB_TOKEN }}
