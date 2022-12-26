@@ -36,6 +36,7 @@ jobs:
     - name: pre-commit run
       run:  pre-commit run --all-files
   simple-test-pry:
+    runs-on: ubuntu-latest
     steps:
     - name: simple-install
       run: tests/simple-install.sh
