@@ -70,16 +70,11 @@ jobs:
   release:
     needs:
       - check
-    #if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-      - name: Release
-        run: |
-            pip install twine
-            python -c "import shutil; shutil.rmtree('dist', ignore_errors=True)"
-            python -m build
-            python -m twine upload dist/*
-        env:
-          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+      - name: Publish a Python distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_TOKEN }}
