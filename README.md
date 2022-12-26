@@ -1,6 +1,6 @@
 # The gdbplugins.
 
-[![Build Status](https://travis-ci.org/jaryn/gdbplugins.svg?branch=master)](https://travis-ci.org/jaryn/gdbplugins)
+[![github-action](https://github.com/jarovo/gdbplugins/actions/workflows/github-action.yml/badge.svg)]
 
 Python plugins for gdb making debugging various languages with gdb easy.
 

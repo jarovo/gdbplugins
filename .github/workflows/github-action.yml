@@ -1,0 +1,37 @@
+on:
+  pull_request:
+  push:
+    branches:
+    - master
+jobs:
+  markdown-link-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: gaurav-nelson/github-action-markdown-link-check@v1
+  pre-commit:
+    #runs-on: buster-slim
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+    - uses: actions/checkout@master
+    - uses: conda-incubator/setup-miniconda@v2
+      with:
+        activate-environment: test
+        environment-file: environment.yml
+        python-version: 3.8
+        auto-activate-base: false
+    - name: pre-commit clean
+      run:  pre-commit clean
+    - name: pre-commit run
+      run:  pre-commit run --all-files
+  install-test:
+    #runs-on: buster-slim
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Install
+        run: pip install .

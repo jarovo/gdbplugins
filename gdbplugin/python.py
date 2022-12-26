@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import gdb
 import subprocess
 from contextlib import contextmanager
