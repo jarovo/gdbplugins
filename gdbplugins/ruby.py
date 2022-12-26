@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import gdb
-from gdbplugin.clang_support import CAPI, CFunc, StdLib
+from gdbplugins.clang_support import CAPI, CFunc, StdLib
 
 
 class Ruby(CAPI):

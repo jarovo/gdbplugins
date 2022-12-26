@@ -12,5 +12,3 @@ function install_dnf {
 }
 
 install_dnf || install_apt
-
-pip3 install --prefix / /src
