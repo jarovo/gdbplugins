@@ -1,6 +1,6 @@
 # The gdbplugins.
 
-![github-action](https://github.com/jarovo/gdbplugins/actions/workflows/github-action.yml/badge.svg?event=push)
+[![.github/workflows/main.yml](https://github.com/jarovo/gdbplugins/actions/workflows/main.yml/badge.svg)](https://github.com/jarovo/gdbplugins/actions/workflows/main.yml)
 
 Python plugins for gdb making debugging various languages with gdb easy.
 
