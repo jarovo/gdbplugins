@@ -54,7 +54,7 @@ jobs:
 
     needs:
       - markdown-link-check
-      - pip-install-test
+#      - pip-install-test
 #      - pre-commit
 #      - test-fedora
 
