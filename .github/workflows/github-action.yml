@@ -36,6 +36,7 @@ jobs:
     - name: pre-commit run
       run:  pre-commit run --all-files
   simple-test-pry:
+    steps:
     - name: simple-install
       run: tests/simple-install.sh
     - name: test-run-pry
