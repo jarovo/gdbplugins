@@ -55,8 +55,8 @@ jobs:
     needs:
       - markdown-link-check
       - pip-install-test
-      - pre-commit
-      - test-fedora
+#      - pre-commit
+#      - test-fedora
 
     runs-on: ubuntu-latest
 
