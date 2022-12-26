@@ -39,6 +39,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: simple-install
-      run: tests/simple-install.sh
+      run: ./tests/simple-install.sh
     - name: test-run-pry
-      run: tests/run-pry
+      run: ./tests/run-pry
