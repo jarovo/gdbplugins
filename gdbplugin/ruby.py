@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import gdb
 from gdbplugin.clang_support import CAPI, CFunc, StdLib
 
@@ -37,7 +38,7 @@ class Pry(gdb.Command):
         super().__init__("pry", gdb.COMMAND_NONE)
 
     def invoke(self, argument, from_tty):
-        print(f"Executing pry in the inferior")
+        print("Executing pry in the inferior")
         r, state = run_ruby_string_protect("""require 'pry'; pry""")
         print(f"Result: {r}, state {state}")
 
