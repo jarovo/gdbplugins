@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -xe
 
 OUTPUT="$(gdb)"
 for plugin_name in python ruby; do

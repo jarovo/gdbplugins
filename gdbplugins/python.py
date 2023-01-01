@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
+import ast
 import gdb
 import subprocess
 from contextlib import contextmanager
 import argparse
 from textwrap import dedent
-from gdbplugin.clang_support import CAPI, CFunc
+from gdbplugins.clang_support import CAPI, CFunc
 
 
 class Python(CAPI):
@@ -65,31 +66,32 @@ class StartPdb(gdb.Command):
             tty = subprocess.check_output("tty").decode("utf8").strip()
             print(f"tty: {tty}")
 
+        code = dedent(
+            f"""\
+            import {self.modname}
+            import sys
+            import os
+            import traceback
+
+            stdin = stdout = None
+            if "{tty}":
+                stdout = open("{tty}", 'w')
+                stdin = open("{tty}", 'r')
+            thepdb = {self.modname}.Pdb(stdin=stdin, stdout=stdout)
+
+            if {args.fback}:
+                frame = sys._getframe()
+                traceback.print_stack(frame)
+                thepdb.set_trace(frame.f_back)
+            else:
+                thepdb.set_trace()
+            (lambda: None)()
+        """
+        )
+        ast.parse(code)  # Check for code validity
+
         with Python.GIL():
-            Python.PyRun_SimpleString(
-                dedent(
-                    f"""\
-                import {self.modname}
-                import sys
-                import os
-                import traceback
-
-                stdin = stdout = None
-                if "{tty}":
-                    stdout = open("{tty}", 'w')
-                    stdin = open("{tty}", 'r')
-                thepdb = {self.modname}.Pdb(stdin=stdin, stdout=stdout)
-
-                if {args.fback}:
-                    frame = sys._getframe()
-                    traceback.print_stack(frame)
-                    thepdb.set_trace(frame.f_back)
-                else:
-                    thepdb.set_trace()
-                (lambda: None)()
-            """
-                )
-            )
+            Python.PyRun_SimpleString(code)
         gdb.execute("c")
 
 
