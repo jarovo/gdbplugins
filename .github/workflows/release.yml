@@ -8,8 +8,6 @@ on:
 jobs:
   release:
     name: Release
-    needs:
-      - check
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -31,7 +29,13 @@ jobs:
         --wheel
         --outdir dist/
         .
-
+    - name: Create Release
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "dist/*"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        draft: false
+        prerelease: steps.check-version.outputs.prerelease == 'true'
     - name: Publish distribution 📦 to Test PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
